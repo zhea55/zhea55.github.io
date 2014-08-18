@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>前端扯淡</title>
+ <link href="https://zhea55.github.io/atom.xml" rel="self"/>
+ <link href="https://zhea55.github.io/"/>
+ <updated>2014-08-18T21:14:25+08:00</updated>
+ <id>https://zhea55.github.io</id>
+ <author>
+   <name>zhea55</name>
+   <email></email>
+ </author>
+
+ 
+ <entry>
+   <title>dust.js使用心得</title>
+   <link href="https://zhea55.github.io/2014/08/17/dust.js-tutorial/"/>
+   <updated>2014-08-17T18:55:00+08:00</updated>
+   <id>https://zhea55.github.io/2014/08/17/dust.js-tutorial</id>
+   <content type="html">&lt;p&gt;&lt;a href=&quot;https://github.com/linkedin/dustjs&quot;&gt;dust.js&lt;/a&gt;是linkedin公司开发的前端渲染引擎，它既可以在浏览器端运行，也可以在服务器端运行。&lt;/p&gt;
+
+&lt;h3&gt;先看看它的模板语法:&lt;/h3&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-handbar&quot; data-lang=&quot;handbar&quot;&gt;Hello {name}! You have {count} new messages.&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SpiderMan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;count&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;一眼看上去，代码美如画。简洁、明了。&lt;/p&gt;
+
+&lt;h3&gt;在浏览器端使用dust.js&lt;/h3&gt;
+
+&lt;p&gt;下载项目以后，我们可以在&lt;code&gt;dist&lt;/code&gt;目录找到dust.js文件&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;.
++-- archive
++-- benchmark
++-- bin
++-- dist
+|   +-- dust-core.js        //执行模板渲染所需要的文件
+|   +-- dust-full.js        //既可以执行模板渲染，还可以编译模板。体积较大
++-- docs
++-- lib
++-- src
++-- &lt;span class=&quot;nb&quot;&gt;test&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;dust.js的模板需要预先编译。我们可以直接在浏览器中编译模板，也可以在nodejs后台提前编译（性能更佳）。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;项目中包含&lt;code&gt;dust-full.js&lt;/code&gt;后&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;SpiderMan&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;count&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Hello {name}! You have {count} new messages.&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;compiled&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;dust&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;compile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//编译后的字符串传递给js解析引擎去执行&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;dust&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;loadSource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;compiled&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//&#39;hello&#39;----映射----&amp;gt;装载好的模板&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//通过&quot;hello&quot;这个id进行调用&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;dust&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;hello&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//Hello SpiderMan! You have 30 new messages.&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;//我不需要编译了&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;dust&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;hello&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;Batman&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;//Hello Batman! You have 10 new messages.&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>为什么要在前端渲染数据？</title>
+   <link href="https://zhea55.github.io/2014/08/16/why-front-templating/"/>
+   <updated>2014-08-16T12:31:00+08:00</updated>
+   <id>https://zhea55.github.io/2014/08/16/why-front-templating</id>
+   <content type="html">&lt;h3&gt;减少数据传输&lt;/h3&gt;
+
+&lt;p&gt;先来看看传统的后台数据渲染，这里以&lt;a href=&quot;http://freemarker.org/&quot;&gt;freemarker&lt;/a&gt;举例：&lt;/p&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-&quot; data-lang=&quot;&quot;&gt;&amp;lt;#list bookList as book&amp;gt;
+  &amp;lt;h2&amp;gt;${book.title}&amp;lt;/h2&amp;gt;
+  &amp;lt;p&amp;gt;${book.authorName}&amp;lt;/p&amp;gt;
+&amp;lt;/#list&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;c&quot;&gt;&amp;lt;!-- 输出结果为 --&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;你一定爱读的极简欧洲史&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;约翰•赫斯特&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;我们台湾这些年&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;廖信忠&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;白光&lt;span class=&quot;nt&quot;&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;连城三纪彦(Renjo Mikihiko)&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;输出的&lt;code&gt;html&lt;/code&gt;中包含了很多标签。嗯，我想说&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;这些标签也占用了网络传输量。&lt;/li&gt;
+&lt;li&gt;后端进行渲染，占用的是服务器端的资源。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;通常情况下，我们面对的模板都要复杂得多，每个标签有很多属性，比如：&lt;code&gt;id&lt;/code&gt;、&lt;code&gt;classname&lt;/code&gt;、&lt;code&gt;attribute&lt;/code&gt;...&lt;/p&gt;
+
+&lt;p&gt;也就是说，每一次网络请求，这些重复的内容都会从后台传输到浏览器。&lt;/p&gt;
+
+&lt;p&gt;&lt;picture&gt;
+    &lt;source srcset=&quot;/generated/server-side-templating-826by257-0ac8e4.png&quot; media=&quot;(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/server-side-templating-720by224-0ac8e4.png&quot; media=&quot;(min-width: 40em)&quot;&gt;
+    &lt;source srcset=&quot;/generated/server-side-templating-675by210-0ac8e4.png&quot; media=&quot;(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/server-side-templating-450by140-0ac8e4.png&quot; media=&quot;(min-width: 30em)&quot;&gt;
+    &lt;source srcset=&quot;/generated/server-side-templating-525by163-0ac8e4.png&quot; media=&quot;(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/server-side-templating-350by109-0ac8e4.png&quot;&gt;
+    &lt;img srcset=&quot;/generated/server-side-templating-350by109-0ac8e4.png&quot; class=&quot;blog-full&quot; itemprop=&quot;image&quot; alt=&quot;服务器端渲染流程&quot; &gt;
+  &lt;/picture&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;picture&gt;
+    &lt;source srcset=&quot;/generated/client-side-templating-827by257-ee0df0.png&quot; media=&quot;(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/client-side-templating-720by224-ee0df0.png&quot; media=&quot;(min-width: 40em)&quot;&gt;
+    &lt;source srcset=&quot;/generated/client-side-templating-675by210-ee0df0.png&quot; media=&quot;(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/client-side-templating-450by140-ee0df0.png&quot; media=&quot;(min-width: 30em)&quot;&gt;
+    &lt;source srcset=&quot;/generated/client-side-templating-525by163-ee0df0.png&quot; media=&quot;(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/client-side-templating-350by109-ee0df0.png&quot;&gt;
+    &lt;img srcset=&quot;/generated/client-side-templating-350by109-ee0df0.png&quot; class=&quot;blog-full&quot; itemprop=&quot;image&quot; alt=&quot;服务器端渲染流程&quot; &gt;
+  &lt;/picture&gt;&lt;/p&gt;
+
+&lt;h3&gt;前后端开发解耦&lt;/h3&gt;
+
+&lt;p&gt;传统的后端渲染流程，导致后端开发人员需要维护混乱不堪的代码。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;html&lt;/code&gt;里面少一个&lt;code&gt;&amp;gt;&lt;/code&gt;，或者&lt;code&gt;&amp;quot;&lt;/code&gt;都可能导致很隐含的bug&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;换到前端渲染，后端开发人员只需要提供数据，无需关心渲染逻辑。&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>快速定位ie6中的javascript错误</title>
+   <link href="https://zhea55.github.io/2014/08/15/trace-js-error-in-ie6/"/>
+   <updated>2014-08-15T09:14:00+08:00</updated>
+   <id>https://zhea55.github.io/2014/08/15/trace-js-error-in-ie6</id>
+   <content type="html">&lt;p&gt;ie6抛出js错误时，没有指明出错的文件。有时候比较头疼，找来找去。&lt;/p&gt;
+
+&lt;p&gt;后来发现只要打开ie11，在开发者工具中切换到ie7，然后切换到控制台面板&lt;/p&gt;
+
+&lt;p&gt;ie7将出错的文件来源和行号写的清清楚楚。&lt;/p&gt;
+</content>
+ </entry>
+ 
+
+</feed>

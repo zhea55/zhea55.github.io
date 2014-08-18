@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh-cn">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      dust.js使用心得 &middot; 前端扯淡
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/poole-070412fed3b90075fef70ab2c66b60fb.css">
+  <link rel="stylesheet" href="/public/syntax-5de62a73b4ca83aa6c2a8f7633f31679.css">
+  <link rel="stylesheet" href="/public/hyde-81f31d50a5e400d050830b98eee7d2ac.css">
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-0b">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>前端扯淡</h1>
+      <p class="lead">我是小学生</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+        <a href="/">首页</a>
+      </li>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+
+
+      <!-- <li class="sidebar-nav-item"><a href="https://zhea55.github.io">GitHub project</a></li> -->
+    </ul>
+
+    <!-- <p>&copy; 2014. All rights reserved.</p> -->
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">dust.js使用心得</h1>
+  <span class="post-date">2014-08-17 18:55</span>
+  <p><a href="https://github.com/linkedin/dustjs">dust.js</a>是linkedin公司开发的前端渲染引擎，它既可以在浏览器端运行，也可以在服务器端运行。</p>
+
+<h3>先看看它的模板语法:</h3>
+
+<div class="highlight"><pre><code class="language-handbar" data-lang="handbar">Hello {name}! You have {count} new messages.</code></pre></div>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"SpiderMan"</span><span class="p">,</span>
+  <span class="s2">"count"</span><span class="p">:</span> <span class="mi">30</span>
+<span class="p">}</span></code></pre></div>
+
+<p>一眼看上去，代码美如画。简洁、明了。</p>
+
+<h3>在浏览器端使用dust.js</h3>
+
+<p>下载项目以后，我们可以在<code>dist</code>目录找到dust.js文件</p>
+
+<div class="highlight"><pre><code class="language-shell" data-lang="shell">.
++-- archive
++-- benchmark
++-- bin
++-- dist
+|   +-- dust-core.js        //执行模板渲染所需要的文件
+|   +-- dust-full.js        //既可以执行模板渲染，还可以编译模板。体积较大
++-- docs
++-- lib
++-- src
++-- <span class="nb">test</span></code></pre></div>
+
+<blockquote>
+<p>dust.js的模板需要预先编译。我们可以直接在浏览器中编译模板，也可以在nodejs后台提前编译（性能更佳）。</p>
+</blockquote>
+
+<p>项目中包含<code>dust-full.js</code>后</p>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"SpiderMan"</span><span class="p">,</span>
+  <span class="s2">"count"</span><span class="p">:</span> <span class="mi">30</span>
+<span class="p">};</span>
+
+
+<span class="kd">var</span> <span class="nx">template</span> <span class="o">=</span> <span class="s1">'Hello {name}! You have {count} new messages.'</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">compiled</span> <span class="o">=</span> <span class="nx">dust</span><span class="p">.</span><span class="nx">compile</span><span class="p">(</span><span class="nx">template</span><span class="p">,</span> <span class="s2">"hello"</span><span class="p">);</span>
+
+<span class="c1">//编译后的字符串传递给js解析引擎去执行</span>
+<span class="nx">dust</span><span class="p">.</span><span class="nx">loadSource</span><span class="p">(</span><span class="nx">compiled</span><span class="p">);</span>
+
+<span class="c1">//'hello'----映射----&gt;装载好的模板</span>
+
+<span class="c1">//通过"hello"这个id进行调用</span>
+<span class="nx">dust</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">out</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//Hello SpiderMan! You have 30 new messages.</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">//我不需要编译了</span>
+<span class="nx">dust</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">'hello'</span><span class="p">,</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Batman'</span><span class="p">,</span> <span class="na">count</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">out</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//Hello Batman! You have 10 new messages.</span>
+  <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/08/16/why-front-templating/">
+            为什么要在前端渲染数据？
+            <small>2014-08-16</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/08/15/trace-js-error-in-ie6/">
+            快速定位ie6中的javascript错误
+            <small>2014-08-15</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+    <script src="/public/picturefill-beebf7ee6ec69b6e4c43bdcda4f9d7d8.js"></script>
+  </body>
+</html>

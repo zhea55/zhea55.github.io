@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh" lang="zh-cn">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      为什么要在前端渲染数据？ &middot; 前端扯淡
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/poole-070412fed3b90075fef70ab2c66b60fb.css">
+  <link rel="stylesheet" href="/public/syntax-5de62a73b4ca83aa6c2a8f7633f31679.css">
+  <link rel="stylesheet" href="/public/hyde-81f31d50a5e400d050830b98eee7d2ac.css">
+
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-144-precomposed.png">
+                                 <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body class="theme-base-0b">
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>前端扯淡</h1>
+      <p class="lead">我是小学生</p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-item">
+        <a href="/">首页</a>
+      </li>
+
+      
+
+      
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+
+
+      <!-- <li class="sidebar-nav-item"><a href="https://zhea55.github.io">GitHub project</a></li> -->
+    </ul>
+
+    <!-- <p>&copy; 2014. All rights reserved.</p> -->
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+  <h1 class="post-title">为什么要在前端渲染数据？</h1>
+  <span class="post-date">2014-08-16 12:31</span>
+  <h3>减少数据传输</h3>
+
+<p>先来看看传统的后台数据渲染，这里以<a href="http://freemarker.org/">freemarker</a>举例：</p>
+<div class="highlight"><pre><code class="language-" data-lang="">&lt;#list bookList as book&gt;
+  &lt;h2&gt;${book.title}&lt;/h2&gt;
+  &lt;p&gt;${book.authorName}&lt;/p&gt;
+&lt;/#list&gt;
+</code></pre></div>
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="c">&lt;!-- 输出结果为 --&gt;</span>
+
+<span class="nt">&lt;h2&gt;</span>你一定爱读的极简欧洲史<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;p&gt;</span>约翰•赫斯特<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;h2&gt;</span>我们台湾这些年<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;p&gt;</span>廖信忠<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;h2&gt;</span>白光<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;p&gt;</span>连城三纪彦(Renjo Mikihiko)<span class="nt">&lt;/p&gt;</span>
+...</code></pre></div>
+
+<p>输出的<code>html</code>中包含了很多标签。嗯，我想说</p>
+
+<ul>
+<li>这些标签也占用了网络传输量。</li>
+<li>后端进行渲染，占用的是服务器端的资源。</li>
+</ul>
+
+<p>通常情况下，我们面对的模板都要复杂得多，每个标签有很多属性，比如：<code>id</code>、<code>classname</code>、<code>attribute</code>...</p>
+
+<p>也就是说，每一次网络请求，这些重复的内容都会从后台传输到浏览器。</p>
+
+<p><picture>
+    <source srcset="/generated/server-side-templating-826by257-0ac8e4.png" media="(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/server-side-templating-720by224-0ac8e4.png" media="(min-width: 40em)">
+    <source srcset="/generated/server-side-templating-675by210-0ac8e4.png" media="(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/server-side-templating-450by140-0ac8e4.png" media="(min-width: 30em)">
+    <source srcset="/generated/server-side-templating-525by163-0ac8e4.png" media="(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)">
+    <source srcset="/generated/server-side-templating-350by109-0ac8e4.png">
+    <img srcset="/generated/server-side-templating-350by109-0ac8e4.png" class="blog-full" itemprop="image" alt="服务器端渲染流程" >
+  </picture></p>
+
+<p><picture>
+    <source srcset="/generated/client-side-templating-827by257-ee0df0.png" media="(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/client-side-templating-720by224-ee0df0.png" media="(min-width: 40em)">
+    <source srcset="/generated/client-side-templating-675by210-ee0df0.png" media="(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/client-side-templating-450by140-ee0df0.png" media="(min-width: 30em)">
+    <source srcset="/generated/client-side-templating-525by163-ee0df0.png" media="(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)">
+    <source srcset="/generated/client-side-templating-350by109-ee0df0.png">
+    <img srcset="/generated/client-side-templating-350by109-ee0df0.png" class="blog-full" itemprop="image" alt="服务器端渲染流程" >
+  </picture></p>
+
+<h3>前后端开发解耦</h3>
+
+<p>传统的后端渲染流程，导致后端开发人员需要维护混乱不堪的代码。</p>
+
+<blockquote>
+<p><code>html</code>里面少一个<code>&gt;</code>，或者<code>&quot;</code>都可能导致很隐含的bug</p>
+</blockquote>
+
+<p>换到前端渲染，后端开发人员只需要提供数据，无需关心渲染逻辑。</p>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2014/08/17/dust.js-tutorial/">
+            dust.js使用心得
+            <small>2014-08-17</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2014/08/15/trace-js-error-in-ie6/">
+            快速定位ie6中的javascript错误
+            <small>2014-08-15</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+    <script src="/public/picturefill-beebf7ee6ec69b6e4c43bdcda4f9d7d8.js"></script>
+  </body>
+</html>
