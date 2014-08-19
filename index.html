@@ -72,8 +72,55 @@
 	
 	<div class="post">
 		<h1 class="post-title">
-			<a href="/2014/08/17/dust.js-tutorial/">
-				dust.js使用心得
+			<a href="/2014/08/19/compile-dust.js-in-nodejs/">
+				在nodejs中编译dust.js模板
+			</a>
+		</h1>
+
+		<span class="post-date">2014-08-19 22:07</span>
+
+		<h3>添加语法高亮</h3>
+
+<ul>
+<li>sublime通过<code>CTRL SHIFT P</code>安装<a href="https://sublime.wbond.net/packages/Dust.js">Dust.js</a></li>
+<li>webstorm、intellij idea可以安装<a href="https://github.com/yifanz/Intellij-Dust">Dust.js</a></li>
+</ul>
+
+<p><picture>
+    <source srcset="/generated/sublime-dust-954by378-e7f28b.png" media="(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/sublime-dust-720by285-e7f28b.png" media="(min-width: 40em)">
+    <source srcset="/generated/sublime-dust-675by267-e7f28b.png" media="(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/sublime-dust-450by178-e7f28b.png" media="(min-width: 30em)">
+    <source srcset="/generated/sublime-dust-525by208-e7f28b.png" media="(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)">
+    <source srcset="/generated/sublime-dust-350by139-e7f28b.png">
+    <img srcset="/generated/sublime-dust-350by139-e7f28b.png" class="blog-full" itemprop="image" alt="sublime截图预览" >
+  </picture></p>
+
+<h3>安装dust的编译依赖文件</h3>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>npm install dustjs-linkedin</code></pre></div>
+
+<blockquote>
+<p>如果只安装了官方提供的编译依赖，则需要require以后，调用dust.compile方法进行编译</p>
+</blockquote>
+
+<p>这里我们继续安装<a href="https://github.com/dmix/dusterjs">dusterjs</a>插件，将这个项目下载下来，放在你的项目根目录。</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh">+-- sample
++-- .gitignore
++-- README.md
++-- duster.js           //自动检测文件改动并编译dust的主文件
++-- duster.json         //配置输入dust模板的目录，和输出js的目录
++-- package.json        //项目所需依赖，需要手动npm update获取依赖</code></pre></div>
+
+<h3>未完待续</h3>
+
+	</div>
+	
+	<div class="post">
+		<h1 class="post-title">
+			<a href="/2014/08/17/dust.js-intro/">
+				dust.js简介
 			</a>
 		</h1>
 
@@ -199,7 +246,7 @@
     <source srcset="/generated/client-side-templating-450by140-ee0df0.png" media="(min-width: 30em)">
     <source srcset="/generated/client-side-templating-525by163-ee0df0.png" media="(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)">
     <source srcset="/generated/client-side-templating-350by109-ee0df0.png">
-    <img srcset="/generated/client-side-templating-350by109-ee0df0.png" class="blog-full" itemprop="image" alt="服务器端渲染流程" >
+    <img srcset="/generated/client-side-templating-350by109-ee0df0.png" class="blog-full" itemprop="image" alt="客户端渲染流程" >
   </picture></p>
 
 <h3>前后端开发解耦</h3>
@@ -225,9 +272,9 @@
 
 		<p>ie6抛出js错误时，没有指明出错的文件。有时候比较头疼，找来找去。</p>
 
-<p>后来发现只要打开ie11，在开发者工具中切换到ie7，然后切换到控制台面板</p>
+<p>后来发现只要打开ie11，在开发者工具中切换到ie7，然后切换到控制台面板。</p>
 
-<p>ie7将出错的文件来源和行号写的清清楚楚。</p>
+<p>ie7会将出错的文件来源和行号写的清清楚楚。</p>
 
 	</div>
 	
