@@ -13,6 +13,7 @@ GEM
     colorator (0.1)
     execjs (2.2.1)
     fast-stemmer (1.0.2)
+    ffi (1.9.3)
     ffi (1.9.3-x64-mingw32)
     hike (1.2.3)
     httpclient (2.4.0)
@@ -95,6 +96,7 @@ GEM
     uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    wdm (0.1.0)
     yajl-ruby (1.1.0)
 
 PLATFORMS
@@ -110,3 +112,4 @@ DEPENDENCIES
   rouge
   sass
   uglifier
+  wdm (>= 0.1.0)
