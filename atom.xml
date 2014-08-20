@@ -4,7 +4,7 @@
  <title>前端扯淡</title>
  <link href="https://zhea55.github.io/atom.xml" rel="self"/>
  <link href="https://zhea55.github.io/"/>
- <updated>2014-08-19T23:15:50+08:00</updated>
+ <updated>2014-08-20T23:38:29+08:00</updated>
  <id>https://zhea55.github.io</id>
  <author>
    <name>zhea55</name>
@@ -24,14 +24,16 @@
 &lt;li&gt;webstorm、intellij idea可以安装&lt;a href=&quot;https://github.com/yifanz/Intellij-Dust&quot;&gt;Dust.js&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
+&lt;p&gt;新建dust模板时，使用dust作为文件后缀。比如：&lt;code&gt;comment.dust&lt;/code&gt;&lt;/p&gt;
+
 &lt;p&gt;&lt;picture&gt;
-    &lt;source srcset=&quot;/generated/sublime-dust-954by378-e7f28b.png&quot; media=&quot;(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)&quot;&gt;
-    &lt;source srcset=&quot;/generated/sublime-dust-720by285-e7f28b.png&quot; media=&quot;(min-width: 40em)&quot;&gt;
-    &lt;source srcset=&quot;/generated/sublime-dust-675by267-e7f28b.png&quot; media=&quot;(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)&quot;&gt;
-    &lt;source srcset=&quot;/generated/sublime-dust-450by178-e7f28b.png&quot; media=&quot;(min-width: 30em)&quot;&gt;
-    &lt;source srcset=&quot;/generated/sublime-dust-525by208-e7f28b.png&quot; media=&quot;(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)&quot;&gt;
-    &lt;source srcset=&quot;/generated/sublime-dust-350by139-e7f28b.png&quot;&gt;
-    &lt;img srcset=&quot;/generated/sublime-dust-350by139-e7f28b.png&quot; class=&quot;blog-full&quot; itemprop=&quot;image&quot; alt=&quot;sublime截图预览&quot; &gt;
+    &lt;source srcset=&quot;/generated/sublime-dust-940by342-c11e4f.png&quot; media=&quot;(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/sublime-dust-720by262-c11e4f.png&quot; media=&quot;(min-width: 40em)&quot;&gt;
+    &lt;source srcset=&quot;/generated/sublime-dust-675by246-c11e4f.png&quot; media=&quot;(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/sublime-dust-450by164-c11e4f.png&quot; media=&quot;(min-width: 30em)&quot;&gt;
+    &lt;source srcset=&quot;/generated/sublime-dust-525by191-c11e4f.png&quot; media=&quot;(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/sublime-dust-350by127-c11e4f.png&quot;&gt;
+    &lt;img srcset=&quot;/generated/sublime-dust-350by127-c11e4f.png&quot; class=&quot;blog-full&quot; itemprop=&quot;image&quot; alt=&quot;sublime截图预览&quot; &gt;
   &lt;/picture&gt;&lt;/p&gt;
 
 &lt;h3&gt;安装dust的编译依赖文件&lt;/h3&gt;
@@ -51,7 +53,49 @@
 +-- duster.json         //配置输入dust模板的目录，和输出js的目录
 +-- package.json        //项目所需依赖，需要手动npm update获取依赖&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;h3&gt;未完待续&lt;/h3&gt;
+&lt;h3&gt;配置dusterjs插件&lt;/h3&gt;
+
+&lt;p&gt;首先打开duster.json文件&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-json&quot; data-lang=&quot;json&quot;&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;raw_dir&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/src/main/resources/resources/js/dusts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pre_dir&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/src/main/resources/resources/js/templates/compiled&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;raw_dir&lt;/code&gt;dust模板所在目录&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pre_dir&lt;/code&gt;输出编译好的js文件目录&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;配置好以后，使用命令行进入项目根目录，然后&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sh&quot; data-lang=&quot;sh&quot;&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;npm update
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;node duster.js&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;启动duster.js以后，在模板目录内新建、保存模板，都会自动进行编译&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;picture&gt;
+    &lt;source srcset=&quot;/generated/dusterjs-698by83-85515c.png&quot; media=&quot;(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/dusterjs-698by83-85515c.png&quot; media=&quot;(min-width: 40em)&quot;&gt;
+    &lt;source srcset=&quot;/generated/dusterjs-675by80-85515c.png&quot; media=&quot;(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/dusterjs-450by54-85515c.png&quot; media=&quot;(min-width: 30em)&quot;&gt;
+    &lt;source srcset=&quot;/generated/dusterjs-525by62-85515c.png&quot; media=&quot;(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)&quot;&gt;
+    &lt;source srcset=&quot;/generated/dusterjs-350by42-85515c.png&quot;&gt;
+    &lt;img srcset=&quot;/generated/dusterjs-350by42-85515c.png&quot; class=&quot;blog-full&quot; itemprop=&quot;image&quot; alt=&quot;dusterjs自动编译模板&quot; &gt;
+  &lt;/picture&gt;&lt;/p&gt;
+
+&lt;h3&gt;在浏览器中使用编译后的模板&lt;/h3&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;/your/path/comment.js&#39;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;/&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;span class=&quot;c1&quot;&gt;//上面的script代码一定要在render之前执行&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;dust&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;comment&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;comment&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;#someDiv&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 </content>
  </entry>
  

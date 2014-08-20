@@ -86,14 +86,16 @@
 <li>webstorm、intellij idea可以安装<a href="https://github.com/yifanz/Intellij-Dust">Dust.js</a></li>
 </ul>
 
+<p>新建dust模板时，使用dust作为文件后缀。比如：<code>comment.dust</code></p>
+
 <p><picture>
-    <source srcset="/generated/sublime-dust-954by378-e7f28b.png" media="(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)">
-    <source srcset="/generated/sublime-dust-720by285-e7f28b.png" media="(min-width: 40em)">
-    <source srcset="/generated/sublime-dust-675by267-e7f28b.png" media="(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)">
-    <source srcset="/generated/sublime-dust-450by178-e7f28b.png" media="(min-width: 30em)">
-    <source srcset="/generated/sublime-dust-525by208-e7f28b.png" media="(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)">
-    <source srcset="/generated/sublime-dust-350by139-e7f28b.png">
-    <img srcset="/generated/sublime-dust-350by139-e7f28b.png" class="blog-full" itemprop="image" alt="sublime截图预览" >
+    <source srcset="/generated/sublime-dust-940by342-c11e4f.png" media="(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/sublime-dust-720by262-c11e4f.png" media="(min-width: 40em)">
+    <source srcset="/generated/sublime-dust-675by246-c11e4f.png" media="(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/sublime-dust-450by164-c11e4f.png" media="(min-width: 30em)">
+    <source srcset="/generated/sublime-dust-525by191-c11e4f.png" media="(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)">
+    <source srcset="/generated/sublime-dust-350by127-c11e4f.png">
+    <img srcset="/generated/sublime-dust-350by127-c11e4f.png" class="blog-full" itemprop="image" alt="sublime截图预览" >
   </picture></p>
 
 <h3>安装dust的编译依赖文件</h3>
@@ -113,7 +115,49 @@
 +-- duster.json         //配置输入dust模板的目录，和输出js的目录
 +-- package.json        //项目所需依赖，需要手动npm update获取依赖</code></pre></div>
 
-<h3>未完待续</h3>
+<h3>配置dusterjs插件</h3>
+
+<p>首先打开duster.json文件</p>
+
+<div class="highlight"><pre><code class="language-json" data-lang="json"><span class="p">{</span><span class="w">
+    </span><span class="s2">"raw_dir"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/src/main/resources/resources/js/dusts"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"pre_dir"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/src/main/resources/resources/js/templates/compiled"</span><span class="w">
+</span><span class="p">}</span></code></pre></div>
+
+<ul>
+<li><code>raw_dir</code>dust模板所在目录</li>
+<li><code>pre_dir</code>输出编译好的js文件目录</li>
+</ul>
+
+<p>配置好以后，使用命令行进入项目根目录，然后</p>
+
+<div class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>npm update
+<span class="gp">$ </span>node duster.js</code></pre></div>
+
+<blockquote>
+<p>启动duster.js以后，在模板目录内新建、保存模板，都会自动进行编译</p>
+</blockquote>
+
+<p><picture>
+    <source srcset="/generated/dusterjs-698by83-85515c.png" media="(min-width: 40em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 40em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/dusterjs-698by83-85515c.png" media="(min-width: 40em)">
+    <source srcset="/generated/dusterjs-675by80-85515c.png" media="(min-width: 30em) and (-webkit-min-device-pixel-ratio: 1.5), (min-width: 30em) and (min-resolution: 144dpi)">
+    <source srcset="/generated/dusterjs-450by54-85515c.png" media="(min-width: 30em)">
+    <source srcset="/generated/dusterjs-525by62-85515c.png" media="(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)">
+    <source srcset="/generated/dusterjs-350by42-85515c.png">
+    <img srcset="/generated/dusterjs-350by42-85515c.png" class="blog-full" itemprop="image" alt="dusterjs自动编译模板" >
+  </picture></p>
+
+<h3>在浏览器中使用编译后的模板</h3>
+
+<div class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">'/your/path/comment.js'</span> <span class="nt">/&gt;&lt;/script&gt;</span></code></pre></div>
+
+<div class="highlight"><pre><code class="language-js" data-lang="js"><span class="c1">//上面的script代码一定要在render之前执行</span>
+<span class="nx">dust</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">'comment'</span><span class="p">,</span> <span class="p">{</span> <span class="na">comment</span><span class="p">:</span> <span class="nx">comment</span> <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">out</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s1">'#someDiv'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">out</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
 
 	</div>
 	
